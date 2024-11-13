@@ -2,6 +2,8 @@
 
 Developed by **Solomon Odum**
 
+Deployment link on streamlit: https://solomonamaning-forex-exchang-foreign-exchange-prediction-3wl08b.streamlit.app/
+
 ## Overview
 This application forecasts the USD/GBP exchange rate for up to 10 years. Users can input a custom USD and GBP rate, and the forecast will start from today’s date with the user-defined rate. The application provides interactive visualization features, allowing users to view historical exchange rates, explore forecasted trends, and highlight specific years for detailed rate information.
 
