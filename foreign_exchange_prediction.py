@@ -8,7 +8,7 @@ from datetime import timedelta
 # Loading the data from CSV and formatting date columns
 @st.cache_data
 def load_data():
-    df = pd.read_csv('HistoricalPrices.csv')
+    df = pd.read_csv('./forex-exchange-forecast/HistoricalPrices.csv')
     df['Date'] = pd.to_datetime(df['Date'])
     df.rename(columns={'Date': 'ds', 'Close': 'y'}, inplace=True)
     return df
