@@ -1,39 +1,28 @@
-# USD/GBP Forex-exchange-forecast
-An interactive application that forecasts the USD/GBP exchange rate using historical data and Prophet for time-series modeling. Users can specify the forecast period, enter a current USD rate, and see projected GBP rates over time.
+# Forex Exchange Rate Forecasting
 
-## Developed by Solomon Odum.
+This project uses a machine learning model to forecast the USD/GBP exchange rate over a specified period. It includes a Streamlit app for user interaction, allowing users to input a current USD rate and visualize projected GBP rates for up to 10 years.
 
-<!-- Table of Contents
-- Project Overview
-- Features
-- Requirements
-- Setup Instructions
-- Usage
-- Application Demo
-- Customization
-- Acknowledgments -->
+## Project Structure
 
-## Project Overview
-This application leverages the Facebook Prophet model to forecast the USD/GBP exchange rate for up to 10 years based on historical data. Users can adjust the forecast period and input a specific USD rate to see the projected GBP values over the chosen period.
+- `foreign_exchange_prediction.py`: The main application code for the Streamlit dashboard.
+- `HistoricalPrices.csv`: The dataset of historical exchange rates used for model training.
+- `README.md`: Project documentation.
 
-The interactive dashboard, built with Streamlit, provides a dynamic visualization of the exchange rate forecast, including components for trends and seasonality.
+## Installation
 
-## Features
-- **Forecast Adjustment**: Users can set the forecast period up to 10 years.
-- **Exchange Rate Simulation**: Input a current USD rate to adjust the forecasted GBP values.
-- **Interactive Visualization**: View actual vs. forecasted exchange rates with hover functionality.
-- **Trend and Seasonality Insights**: Option to display underlying trend and seasonality components in the forecast.
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/...
+    cd 
+    ```
 
-## Requirements
-- Python 3.8 or higher
-- The following Python libraries:
-  - `streamlit`
-  - `pandas`
-  - `numpy`
-  - `prophet`
-  - `plotly`
+2. **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-**You can install the required libraries using:**
+## Usage
 
+To start the Streamlit app, run:
 ```bash
-pip install streamlit pandas numpy prophet plotly
+streamlit run foreign_exchange_prediction.py
