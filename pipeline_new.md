@@ -2,12 +2,6 @@
 
 Prepared by  Solomon Odum
 
-### UI Preview - Model Training Portal Dashboard
-
-![Model Training Portal Dashboard](assets/model_training_portal_dashboard.png)
-
-*The dashboard shows GPU usage monitoring, system metrics, recent jobs tracking, and quick actions for creating document types and starting training pipelines.*
-
 ### Goals
 - Centralize dataset management, training, evaluation, and serving behind a single UI/API.
 - Make reproducible runs with clear configs and artifacts.
