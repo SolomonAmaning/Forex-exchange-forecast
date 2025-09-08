@@ -7,7 +7,7 @@ Prepared by  Solomon Odum
 - Make reproducible runs with clear configs and artifacts.
 - Provide observability for jobs and system health.
 
-###  Architecture (Simplified for readability)
+###  Architecture
 ```mermaid
 flowchart LR
   UI["Frontend (React)"] --> API["Backend (FastAPI)"]
@@ -20,7 +20,7 @@ flowchart LR
   SVC --> LOGS["Logs/Monitoring"]
 ```
 
-### Flow Chart (Operational)
+### Operational FLow
 ```mermaid
 flowchart TD
   A["Create Document Type"] --> B["Upload Data / Config"]
@@ -84,3 +84,5 @@ stateDiagram-v2
 - Services:
   - Database for jobs/metadata (e.g., PostgreSQL)
   - Cache/Queue for background work (e.g., Redis)
+ 
+The plan will be continuously reviewed throughout the pipeline development process.
