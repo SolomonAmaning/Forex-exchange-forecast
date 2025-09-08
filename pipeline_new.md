@@ -10,7 +10,7 @@ Prepared by  Solomon Odum
 ###  Architecture
 ```mermaid
 flowchart LR
-  UI["Frontend (React)"] --> API["Backend (FastAPI)"]
+  UI["Frontend"] --> API["Backend (FastAPI)"]
   API --> SVC["Service Layer"]
   SVC --> DB["Database"]
   SVC --> CACHE["Cache/Queue"]
