@@ -82,7 +82,7 @@ stateDiagram-v2
   - `MODELS_DIR`: `checkpoints/` and `serving/`
   - `FRAMEWORK_PATH`, `BASE_MODEL_PATH`: model framework roots
 - Services:
-  - Database for jobs/metadata (e.g., PostgreSQL)
-  - Cache/Queue for background work (e.g., Redis)
+  - Database for jobs/metadata 
+  - Cache/Queue for background work
  
 The plan will be continuously reviewed throughout the pipeline development process.
