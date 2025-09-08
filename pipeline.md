@@ -1,69 +1,23 @@
-## Document Processing Portal – Pipeline Plan
+##  Automated Model Training and Inferencing Portal – Pipeline Plan
 
-### Audience
-- Engineering, Ops, and Stakeholders who need a high‑level, visual overview of how the portal runs end‑to‑end.
+Prepared by  Solomon Odum
 
 ### Goals
 - Centralize dataset management, training, evaluation, and serving behind a single UI/API.
 - Make reproducible runs with clear configs and artifacts.
 - Provide observability for jobs and system health.
 
-### Low‑Level Architecture (Components)
+###  Architecture (Simplified for readability)
 ```mermaid
 flowchart LR
-  subgraph UI["Frontend (React)"]
-    UI1["Dashboard"]
-    UI2["Document Types"]
-    UI3["Pipeline"]
-    UI4["Models"]
-    UI5["Evaluation"]
-    UI6["Monitoring"]
-  end
-
-  subgraph API["Backend (FastAPI Routers)"]
-    Rauth["/auth_router/"]
-    Rdoc["/doctype_router/"]
-    Rpipe["/pipeline_router/"]
-    Rmodel["/model_router/"]
-    Reveal["/evaluation_router/"]
-    Rmon["/monitoring_router/"]
-  end
-
-  subgraph SVC["Service Layer"]
-    FM["file_manager"]
-    JM["job_manager"]
-    PM["pipeline_manager"]
-    MT["model_trainer"]
-    EV["evaluator"]
-    DM["data_manager"]
-    BM["backup_manager"]
-    CG["config_generator"]
-  end
-
-  DB["PostgreSQL (SQLAlchemy)"]
-  RD["Redis (optional)"]
-  LOG["Logs"]
-
-  subgraph FS["Portal Data"]
-    UP["uploads/"]
-    CK["models/checkpoints/"]
-    SVdir["models/serving/"]
-    BK["backups/"]
-  end
-
-  FW["FRAMEWORK_PATH"]
-  BMPath["BASE_MODEL_PATH"]
-  SRV["Model Serving (vLLM/REST)"]
-
-  UI --> API
-  API --> SVC
-  SVC <--> DB
-  SVC <--> RD
-  SVC --> FS
-  SVC --> FW
-  SVC --> BMPath
-  SVC --> SRV
-  SVC --> LOG
+  UI["Frontend (React)"] --> API["Backend (FastAPI)"]
+  API --> SVC["Service Layer"]
+  SVC --> DB["Database"]
+  SVC --> CACHE["Cache/Queue"]
+  SVC --> FS["Portal Data (uploads/models/backups)"]
+  SVC --> FW["Framework (models code)"]
+  SVC --> SRV["Model Serving (GPU)"]
+  SVC --> LOGS["Logs/Monitoring"]
 ```
 
 ### Flow Chart (Operational)
@@ -89,7 +43,7 @@ sequenceDiagram
   participant UI as Portal UI
   participant API as FastAPI
   participant FS as Storage
-  participant DB as Postgres
+  participant DB as Database
   participant SV as Serving
 
   User->>UI: Upload images/configs
@@ -128,18 +82,15 @@ stateDiagram-v2
   - `MODELS_DIR`: `checkpoints/` and `serving/`
   - `FRAMEWORK_PATH`, `BASE_MODEL_PATH`: model framework roots
 - Services:
-  - PostgreSQL for jobs/metadata
-  - Optional Redis for queuing
+  - Database for jobs/metadata (e.g., PostgreSQL)
+  - Cache/Queue for background work (e.g., Redis)
 
-### Deployment Topology (SIT)
+### Deployment
 ```mermaid
 graph TD
-  U[Users] -- HTTP/8000 --> P[Portal (FastAPI + UI)]
-  P --> D[(PostgreSQL)]
-  P --> R[(Redis)]
-  P --> S[(Storage: /app/portal/data)]
-  P --> F[(Framework: /app/meta-jv-reasoning/...)]
-  P --> V[(Model Serving GPUs)]
-```
-
-
+  U["Users"] -- "HTTP/8000" --> P["Portal (FastAPI + UI)"]
+  P --> D["Database"]
+  P --> C["Cache/Queue"]
+  P --> S["Storage (/app/portal/data)"]
+  P --> F["Framework (/app/meta-jv-reasoning/...)"]
+  P --> V["Model Serving (GPU)"]
