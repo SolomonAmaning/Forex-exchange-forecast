@@ -1,4 +1,4 @@
-##  Automated Model Training and Inferencing Portal – Pipeline Plan
+##  Pipeline Plan: Automated Model Training and Inferencing Portal  
 
 Prepared by  Solomon Odum
 
@@ -36,7 +36,7 @@ flowchart TD
   K --> L["Monitor + Logs"]
 ```
 
-### Data Flow (Happy Path)
+### Data Flow
 ```mermaid
 sequenceDiagram
   participant User
@@ -84,13 +84,3 @@ stateDiagram-v2
 - Services:
   - Database for jobs/metadata (e.g., PostgreSQL)
   - Cache/Queue for background work (e.g., Redis)
-
-### Deployment
-```mermaid
-graph TD
-  U["Users"] -- "HTTP/8000" --> P["Portal (FastAPI + UI)"]
-  P --> D["Database"]
-  P --> C["Cache/Queue"]
-  P --> S["Storage (/app/portal/data)"]
-  P --> F["Framework (/app/meta-jv-reasoning/...)"]
-  P --> V["Model Serving (GPU)"]
