@@ -7,7 +7,7 @@ Prepared by  Solomon Odum
 - Make reproducible runs with clear configs and artifacts.
 - Provide observability for jobs and system health.
 
-###  Architecture (Simplified for readability)
+###  Architecture 
 ```mermaid
 flowchart LR
   UI["Frontend (React)"] --> API["Backend (FastAPI)"]
@@ -20,7 +20,7 @@ flowchart LR
   SVC --> LOGS["Logs/Monitoring"]
 ```
 
-### Flow Chart (Operational)
+###  Operational Flow
 ```mermaid
 flowchart TD
   A["Create Document Type"] --> B["Upload Data / Config"]
