@@ -11,59 +11,50 @@
 ### Low‑Level Architecture (Components)
 ```mermaid
 flowchart LR
-  %% Frontend
-  subgraph UI[Frontend (React)]
-    UI1[Dashboard]
-    UI2[Document Types]
-    UI3[Pipeline]
-    UI4[Models]
-    UI5[Evaluation]
-    UI6[Monitoring]
+  subgraph UI["Frontend (React)"]
+    UI1["Dashboard"]
+    UI2["Document Types"]
+    UI3["Pipeline"]
+    UI4["Models"]
+    UI5["Evaluation"]
+    UI6["Monitoring"]
   end
 
-  %% Backend Routers
-  subgraph API[Backend (FastAPI Routers)]
-    Rauth[/auth_router/]
-    Rdoc[/doctype_router/]
-    Rpipe[/pipeline_router/]
-    Rmodel[/model_router/]
-    Reveal[/evaluation_router/]
-    Rmon[/monitoring_router/]
+  subgraph API["Backend (FastAPI Routers)"]
+    Rauth["/auth_router/"]
+    Rdoc["/doctype_router/"]
+    Rpipe["/pipeline_router/"]
+    Rmodel["/model_router/"]
+    Reveal["/evaluation_router/"]
+    Rmon["/monitoring_router/"]
   end
 
-  %% Services (Business Logic)
-  subgraph SVC[Service Layer]
-    FM[file_manager]
-    JM[job_manager]
-    PM[pipeline_manager]
-    MT[model_trainer]
-    EV[evaluator]
-    DM[data_manager]
-    BM[backup_manager]
-    CG[config_generator]
+  subgraph SVC["Service Layer"]
+    FM["file_manager"]
+    JM["job_manager"]
+    PM["pipeline_manager"]
+    MT["model_trainer"]
+    EV["evaluator"]
+    DM["data_manager"]
+    BM["backup_manager"]
+    CG["config_generator"]
   end
 
-  %% Persistence & Infra
-  DB[(PostgreSQL via SQLAlchemy)]
-  RD[(Redis Optional)]
-  LOG[(Logs)]
+  DB["PostgreSQL (SQLAlchemy)"]
+  RD["Redis (optional)"]
+  LOG["Logs"]
 
-  %% File Storage
-  subgraph FS[(Portal Data)]
-    UP[uploads/]
-    CK[models/checkpoints/]
-    SVdir[models/serving/]
-    BK[backups/]
+  subgraph FS["Portal Data"]
+    UP["uploads/"]
+    CK["models/checkpoints/"]
+    SVdir["models/serving/"]
+    BK["backups/"]
   end
 
-  %% Framework / Models
-  FW[(FRAMEWORK_PATH)]
-  BMPath[(BASE_MODEL_PATH)]
+  FW["FRAMEWORK_PATH"]
+  BMPath["BASE_MODEL_PATH"]
+  SRV["Model Serving (vLLM/REST)"]
 
-  %% Serving
-  SRV[(Model Serving: vLLM/REST)]
-
-  %% Edges
   UI --> API
   API --> SVC
   SVC <--> DB
@@ -78,17 +69,17 @@ flowchart LR
 ### Flow Chart (Operational)
 ```mermaid
 flowchart TD
-  A[Create Document Type] --> B[Upload Data / Config]
-  B --> C[Start Pipeline (UI -> /pipeline)]
-  C --> D[Create Job in DB]
-  D --> E[Generate Train Config]
-  E --> F[Run Training]
-  F --> G[Write Checkpoints to models/checkpoints/<doctype>]
-  G --> H[Evaluate Model]
-  H --> I[Register/Expose in Models]
-  I --> J[Start Serving]
-  J --> K[Inference via REST]
-  K --> L[Monitor + Logs]
+  A["Create Document Type"] --> B["Upload Data / Config"]
+  B --> C["Start Pipeline (UI -> /pipeline)"]
+  C --> D["Create Job in DB"]
+  D --> E["Generate Train Config"]
+  E --> F["Run Training"]
+  F --> G["Write Checkpoints to models/checkpoints/{doctype}"]
+  G --> H["Evaluate Model"]
+  H --> I["Register/Expose in Models"]
+  I --> J["Start Serving"]
+  J --> K["Inference via REST"]
+  K --> L["Monitor + Logs"]
 ```
 
 ### Data Flow (Happy Path)
@@ -150,37 +141,5 @@ graph TD
   P --> F[(Framework: /app/meta-jv-reasoning/...)]
   P --> V[(Model Serving GPUs)]
 ```
-
-### Operations Checklist
-- Before run
-  - PostgreSQL reachable (localhost:5432)
-  - `.env` paths valid on host (absolute in SIT)
-  - Port open (8000 or auto‑selected)
-- During run
-  - Monitor `/docs`, `/health`, and logs
-  - Track job IDs in Dashboard
-- After run
-  - Check `models/checkpoints/<doctype>`
-  - Optionally start serving and verify status
-
-### Rollout Plan
-- Phase 1: SIT validation (single node, manual runs)
-- Phase 2: Add Redis queue + background workers
-- Phase 3: Containerize and add Nginx + SSL
-- Phase 4: CI/CD for configs and reproducible jobs
-
-### Risks & Mitigations
-- Misconfigured paths → provide SIT `.env` template and path verifier script
-- Port conflicts → auto port selection script (`start_sit_port.py`)
-- GPU memory pressure → tune `gpu_memory_utilization`, model size
-- DB unavailable → degraded mode (limited features), alerting
-
-### Next Steps
-- Confirm SIT `.env` absolute paths
-- Decide where to host serving (same node vs separate)
-- Define evaluation datasets per doctype
-
----
-For details, see `README.md`, `SIT_CONFIGURATION_GUIDE.md`, and API at `/docs`.
 
 
